@@ -24,6 +24,8 @@ for record in fasta_sequences:
         print(record, record.id)
 print("Sequences parsed: ", bling)
 
+table_seq = cur.execute("SELECT (seq) FROM Sequences")
+print(table_seq)
 conn.commit()
 
 conn.close()
