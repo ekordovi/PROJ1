@@ -1,7 +1,5 @@
 from Bio import SeqIO
-from BioSQL import BioSeqDatabase
 import sqlite3
-import psycopg2
 
 
 # server = BioSeqDatabase.open_database(driver = "MySQLdb", user = "chapmanb",
@@ -14,20 +12,29 @@ cur.execute('''CREATE TABLE IF NOT EXISTS Sequences (id TEXT, description TEXT U
 fasta_sequences = SeqIO.parse(open("my_transcripts.fasta"),'fasta')
 bling = 0
 
-records = list()
+records = []
 for record in fasta_sequences:
     bling += 1
     cur.execute("INSERT OR IGNORE INTO Sequences (id, description, seq) VALUES (?, ?, ?)", 
                 (record.id, record.description, str(record.seq)))
-    records.append(record.seq)
+    records.append(record)
     if bling == 1:
         print(record, record.id)
-print("Sequences parsed: ", bling)
+print("Sequences parsed: ", len(records))
 
 table_seq = cur.execute("SELECT (seq) FROM Sequences")
-print(table_seq)
+all_seqs = [record[0] for record in cur.fetchall()]
+
+
+
+
+seq_lengths = [len(seq) for seq in all_seqs]
+
+print("Summary stats of sequence lengths: ")
+print("min length:", min(seq_lengths))
+print("Maximum length:", max(seq_lengths))
+print("Mean length:", sum(seq_lengths) / len(seq_lengths))
+
+
 conn.commit()
-
 conn.close()
-
-
