@@ -12,6 +12,7 @@ cur = conn.cursor()
 cur.execute('''CREATE TABLE IF NOT EXISTS Sequences (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, Seqid TEXT, description TEXT UNIQUE, seq Text, AA_id INTEGER,
             FOREIGN KEY (AA_id) REFERENCES AA_Sequences(id))''')
 cur.execute('''CREATE TABLE IF NOT EXISTS AA_Sequences (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, AA_seq TEXT)''')
+
 fasta_sequences = SeqIO.parse(open("my_transcripts.fasta"),'fasta')
 bling = 0
 
