@@ -9,16 +9,14 @@ import sqlite3
 conn = sqlite3.connect('PROJ1_BioSQL.sql.db')
 cur = conn.cursor()
 
-cur.execute('''CREATE TABLE IF NOT EXISTS Sequences (id TEXT, description TEXT UNIQUE, seq Text)''')
+cur.execute('''CREATE TABLE IF NOT EXISTS Sequences (id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT UNIQUE, Seqid TEXT, description TEXT UNIQUE, seq Text)''')
 fasta_sequences = SeqIO.parse(open("my_transcripts.fasta"),'fasta')
 bling = 0
-first_record = next(fasta_sequences)
-print(first_record)
 
 records = []
 for record in fasta_sequences:
     bling += 1
-    cur.execute("INSERT OR IGNORE INTO Sequences (id, description, seq) VALUES (?, ?, ?)", 
+    cur.execute("INSERT OR IGNORE INTO Sequences (Seqid, description, seq) VALUES (?, ?, ?)", 
                 (record.id, record.description, str(record.seq)))
     records.append(record)
     if bling == 1:
