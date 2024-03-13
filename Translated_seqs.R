@@ -18,8 +18,11 @@ for (i in 1:nrow(results)) {
 
 
 # Loop through the AA sequences and insert them into the database
-for (seq in protein_seqs) {
-  dbExecute(conn, "INSERT INTO Sequences (AA_seq) VALUES (?)", params = list(seq))
+# Loop through the AA sequences and update corresponding rows in the Sequences table
+for (i in 1:length(protein_seqs)) {
+  seq <- protein_seqs[[i]]
+  id <- i  # Assuming you have an ID corresponding to each sequence
+  dbExecute(conn, "UPDATE Sequences SET AA_seq = ? WHERE id = ?", params = list(seq, id))
 }
 
 # Commit changes and close the connection
