@@ -19,7 +19,7 @@ for (i in 1:nrow(results)) {
 
 # Loop through the AA sequences and insert them into the database
 for (seq in protein_seqs) {
-  dbExecute(conn, "INSERT INTO AA_Sequences (AA_seq) VALUES (?)", params = list(seq))
+  dbExecute(conn, "INSERT INTO Sequences (AA_seq) VALUES (?)", params = list(seq))
 }
 
 # Commit changes and close the connection
